@@ -6,6 +6,10 @@
     "start": "node ./bin/www",
     "build": "webpack --config webpack.config.js"
   },
+  "engines": {
+    "node": "6.0.0",
+    "npm": "5.4.2"
+  },
   "dependencies": {
     "bcrypt": "^1.0.3",
     "body-parser": "^1.15.2",
