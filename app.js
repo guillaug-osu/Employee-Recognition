@@ -15,7 +15,7 @@ const fileUpload = require('express-fileupload');
 var app = express();
 
 //grabs .env files to allow var to connect database.
-require('dotenv').config();
+//require('dotenv').config();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
