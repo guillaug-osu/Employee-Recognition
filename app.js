@@ -79,9 +79,4 @@ hbs.registerHelper('json', function(context) {
     return JSON.stringify(context, null, 2);
 });
 
-app.listen(port, function() {
-  console.log();
-  console.log("go to http://localhost:" + port);
-});
-
 module.exports = app;
