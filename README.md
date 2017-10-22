@@ -20,7 +20,7 @@ Navigate to `http://localhost:8080`
 
 ## Running the tests
 
-To run the unit tests run `mocha tests`
+To run the unit tests run `npm test`
 
 ## Authors
 
