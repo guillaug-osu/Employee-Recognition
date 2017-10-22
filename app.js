@@ -20,9 +20,9 @@ var flash = require('connect-flash');
 
 var app = express();
 
-if (process.env.NODE_ENV === "development"){
-  //grabs .env files to allow var to connect database.
-  require('dotenv').config();
+if (process.env.NODE_ENV === "development") {
+    //grabs .env files to allow var to connect database.
+    require('dotenv').config();
 }
 
 // view engine setup
@@ -45,10 +45,10 @@ app.use(flash());
 
 
 var options = {
-  host: process.env.DB_HOST,
-  user: process.env.DB_USER,
-  password: process.env.DB_PASSWORD,
-  database : process.env.DB_NAME
+    host: process.env.DB_HOST,
+    user: process.env.DB_USER,
+    password: process.env.DB_PASSWORD,
+    database: process.env.DB_NAME
 };
 
 var sessionStore = new MySQLStore(options);
@@ -56,11 +56,11 @@ var sessionStore = new MySQLStore(options);
 
 //Authentication use
 app.use(session({
-  secret: 'fdslfsdlkfjld',
-  store: sessionStore,
-  resave: false,
-  saveUninitialized: false
-  // cookie: { secure: true }
+    secret: 'fdslfsdlkfjld',
+    store: sessionStore,
+    resave: false,
+    saveUninitialized: false
+    // cookie: { secure: true }
 }));
 app.use(passport.initialize());
 app.use(passport.session());
@@ -78,60 +78,60 @@ app.use('/users', users);
 // by default, if there was no name, it would just be called 'local'
 
 passport.use(new LocalStrategy({
-    // by default, local strategy uses username and password, we will override with email
-    usernameField : 'email',
-    passwordField : 'password',
-    passReqToCallback : true // allows us to pass back the entire request to the callback
-},
-function(req, email, password, done) { // callback with email and password from our form
-     const db = require('./db');
-     db.query("SELECT user_id, password FROM `user` WHERE `email` = '" + email + "'",function(err,rows){
-        if (err){
-          console.log("errror");
-          done(err);
-        }
+        // by default, local strategy uses username and password, we will override with email
+        usernameField: 'email',
+        passwordField: 'password',
+        passReqToCallback: true // allows us to pass back the entire request to the callback
+    },
+    function(req, email, password, done) { // callback with email and password from our form
+        const db = require('./db');
+        db.query("SELECT user_id, password FROM `user` WHERE `email` = '" + email + "'", function(err, rows) {
+            if (err) {
+                console.log("errror");
+                done(err);
+            }
 
-        if (rows.length === 0) {
-          return done(null, false, {message: `This email is not in our system.`}); // req.flash is the way to set flashdata using connect-flash
-        }
-        else {
-          console.log(rows[0].user_id);
-          const hash = rows[0].password.toString();
-
-          bcrypt.compare(password, hash, function(err, response){
-            if(response === true){
-              console.log("here");
-              // all is well, return successful user
-              const user_id = rows[0].user_id;
-              return done(null, {user_id: rows[0].user_id});
+            if (rows.length === 0) {
+                return done(null, false, { message: "This email is not in our system." }); // req.flash is the way to set flashdata using connect-flash
             }
             else {
-              return done(null, false, {message: `Incorrect Password`});
-            }
-          });
-        }
-    });
+                console.log(rows[0].user_id);
+                const hash = rows[0].password.toString();
 
-}));
+                bcrypt.compare(password, hash, function(err, response) {
+                    if (response === true) {
+                        console.log("here");
+                        // all is well, return successful user
+                        const user_id = rows[0].user_id;
+                        return done(null, { user_id: rows[0].user_id });
+                    }
+                    else {
+                        return done(null, false, { message: "Incorrect Password" });
+                    }
+                });
+            }
+        });
+
+    }));
 
 
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
-  var err = new Error('Not Found');
-  err.status = 404;
-  next(err);
+    var err = new Error('Not Found');
+    err.status = 404;
+    next(err);
 });
 
 // error handler
 app.use(function(err, req, res, next) {
-  // set locals, only providing error in development
-  res.locals.message = err.message;
-  res.locals.error = req.app.get('env') === 'development' ? err : {};
+    // set locals, only providing error in development
+    res.locals.message = err.message;
+    res.locals.error = req.app.get('env') === 'development' ? err : {};
 
-  // render the error page
-  res.status(err.status || 500);
-  res.render('error');
+    // render the error page
+    res.status(err.status || 500);
+    res.render('error');
 });
 
 
@@ -143,14 +143,14 @@ const partialsDir = __dirname + '/views/partials';
 
 const filenames = fs.readdirSync(partialsDir);
 
-filenames.forEach(function (filename) {
-  const matches = /^([^.]+).hbs$/.exec(filename);
-  if (!matches) {
-    return;
-  }
-  const name = matches[1];
-  const template = fs.readFileSync(partialsDir + '/' + filename, 'utf8');
-  hbs.registerPartial(name, template);
+filenames.forEach(function(filename) {
+    const matches = /^([^.]+).hbs$/.exec(filename);
+    if (!matches) {
+        return;
+    }
+    const name = matches[1];
+    const template = fs.readFileSync(partialsDir + '/' + filename, 'utf8');
+    hbs.registerPartial(name, template);
 });
 
 hbs.registerHelper('json', function(context) {
