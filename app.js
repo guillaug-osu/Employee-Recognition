@@ -20,7 +20,7 @@ var flash = require('connect-flash');
 
 var app = express();
 
-if (process.env.NODE_ENV === "development") {
+if (!process.env.NODE_ENV) {
     //grabs .env files to allow var to connect database.
     require('dotenv').config();
 }
