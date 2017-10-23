@@ -37,3 +37,6 @@ npm-debug.log
 
 # Webpack source maps
 *.map
+
+# uploaded images
+public/images/upload_images

@@ -68,12 +68,19 @@ router.post('/register', function(req, res, next) { // Here we add our user to o
   }
   // If no Errors store uploaded Image and add user info to Mysql
   else {
+    
     //Variables from Registration Form
     //Check image upload if fails
+
     if (!req.files){
         return res.status(400).send('No files were uploaded.');
     }
     var file = req.files.signature;
+    
+    if (!file){
+        return res.status(400).send('No files were uploaded.');
+    }
+    
     var img_name=file.name;
     const name = req.body.name;
     const email = req.body.email;
@@ -91,6 +98,7 @@ router.post('/register', function(req, res, next) { // Here we add our user to o
                   if (error){
                     return res.status(500).send(error);
                   }
+
                   //Insert Into User Table (Registration Form).
                   db.query('INSERT INTO user (name, Region, email, password, img) VALUES (?,?,?,?,?)', [name, Region, email, hash, img_name], function(error, results, fields){
                       //if error throw alert us
